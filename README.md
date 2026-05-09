@@ -1,91 +1,95 @@
-# 📋 TeamFlow – Team Task Manager
+# TeamFlow – Team Task Manager
 
-A full-stack, production-ready team task management application built with **React**, **Node.js**, **Express**, and **MongoDB**. Perfect for teams to collaborate, organize tasks, and track project progress in real-time.
+A full-stack, production-ready team task management application built with React, Node.js, Express, and MongoDB.
 
-**Status:** ✅ Production Ready | 🚀 Deploy on Railway
+## 📸 Screenshots
 
----
+<details>
+<summary>Click to view screenshots</summary>
 
-## ✨ Key Features
+### Dashboard
+<img width="1906" height="894" alt="image" src="https://github.com/user-attachments/assets/3c4330f0-e588-461b-ab23-8de9c8b620b0" />
 
-- ✅ **Team Management** — Create teams, manage members, assign roles (Admin, Member)
-- ✅ **Project & Task Tracking** — Organize work into projects with categorized tasks
-- ✅ **Real-time Updates** — See changes instantly across the team
-- ✅ **Task Priorities** — Set high/medium/low priorities and due dates
-- ✅ **Analytics Dashboard** — Track completion rates and team productivity
-- ✅ **Secure Authentication** — JWT-based login with secure password hashing
-- ✅ **Responsive Design** — Works seamlessly on desktop and mobile
-- ✅ **Production-Ready** — Full deployment ready on Railway + MongoDB Atlas
 
----
+### Projects View
+<img width="875" height="541" alt="image" src="https://github.com/user-attachments/assets/71675172-9904-42df-acda-bced4657a9d9" />
+<img width="1919" height="489" alt="image" src="https://github.com/user-attachments/assets/040b89a3-f54d-40cd-91b5-20a4da3e6d71" />
 
-## 🚀 Quick Start (5 minutes)
+
+### Task Details
+<img width="1919" height="889" alt="image" src="https://github.com/user-attachments/assets/4aae08d2-cd5b-4bd4-ab99-4542a47c03ce" />
+
+
+</details>
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ ([Download](https://nodejs.org))
-- MongoDB Atlas account ([Free tier](https://cloud.mongodb.com))
-- Git
+- Node.js 18+
+- MongoDB Atlas account (or local MongoDB)
 
-### Setup
+---
 
-**Backend:**
+## ⚙️ Backend Setup
+
 ```bash
 cd backend
 npm install
 cp .env.example .env
-# Edit .env and add your MongoDB connection string
+# Fill in your MONGODB_URI and JWT_SECRET in .env
 npm run dev
 ```
 
-**Frontend (new terminal):**
+Seed demo data:
 ```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Open http://localhost:5173
-
-### Seed Demo Data
-```bash
-cd backend
 node seed.js
 ```
 
-**Demo Accounts:**
-- Email: `admin@teamflow.io` / Password: `admin123`
-- Email: `member@teamflow.io` / Password: `member123`
+Demo accounts after seeding:
+| Role   | Email                   | Password  |
+|--------|-------------------------|-----------|
+| Admin  | admin@teamflow.io       | admin123  |
+| Member | member@teamflow.io      | member123 |
 
 ---
 
-## 📦 Tech Stack
+## 🖥️ Frontend Setup
 
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | React 18, React Router, Tailwind CSS, Zustand, TanStack Query |
-| **Backend** | Node.js, Express, MongoDB, Mongoose, JWT |
-| **Deployment** | Railway, MongoDB Atlas |
-| **Security** | bcryptjs, Helmet.js, CORS, Rate Limiting |
+```bash
+cd frontend
+npm install
+cp .env.example .env
+# Set VITE_API_URL=http://localhost:5000/api
+npm run dev
+```
+
+Open: http://localhost:5173
 
 ---
 
-## 🌐 Deploy to Railway (Production)
+## 🌐 Deploy to Railway
 
-**[See Full Deployment Guide →](./DEPLOY.md)** (5-10 minutes)
+### Backend
+1. Create a new Railway project
+2. Connect your GitHub repo
+3. Set root directory to `backend`
+4. Add environment variables:
+   - `MONGODB_URI` — your MongoDB Atlas connection string
+   - `JWT_SECRET` — a long random string (32+ chars)
+   - `FRONTEND_URL` — your deployed frontend URL
+   - `NODE_ENV=production`
 
-### Quick Steps:
-1. Push to GitHub
-2. Connect Railway to your repo
-3. Set environment variables
-4. Done! Auto-deploys on every push
+### Frontend
+1. Add a new service in the same Railway project
+2. Set root directory to `frontend`
+3. Add environment variable:
+   - `VITE_API_URL` — your deployed backend URL + `/api`
 
-**Environment Variables:**
-```
-Backend: MONGODB_URI, JWT_SECRET, NODE_ENV, FRONTEND_URL
-Frontend: VITE_API_URL
-```
-
-See [DEPLOY.md](./DEPLOY.md) for detailed instructions.
+### MongoDB Atlas
+1. Create a free cluster at https://cloud.mongodb.com
+2. Create a database user
+3. Allow access from anywhere (0.0.0.0/0) in Network Access
+4. Copy your connection string
 
 ---
 
@@ -94,158 +98,69 @@ See [DEPLOY.md](./DEPLOY.md) for detailed instructions.
 ```
 task-manager/
 ├── backend/
-│   ├── models/           # Database schemas (User, Project, Task)
-│   ├── routes/           # API endpoints
-│   ├── middleware/       # Auth & security middleware
-│   ├── server.js         # Express app
-│   └── seed.js           # Demo data seeding
+│   ├── models/          # Mongoose models (User, Project, Task)
+│   ├── routes/          # Express routes (auth, users, projects, tasks, analytics)
+│   ├── middleware/       # JWT auth middleware
+│   ├── server.js        # Express app entry
+│   ├── seed.js          # Demo data seeder
+│   └── .env.example     # Environment template
 │
 └── frontend/
-    ├── src/
-    │   ├── components/   # Reusable UI components
-    │   ├── pages/        # Page components (Dashboard, Tasks, etc)
-    │   ├── context/      # State management (Zustand)
-    │   └── utils/        # API client & helpers
-    └── public/           # Static assets
+    └── src/
+        ├── components/
+        │   ├── auth/    # AuthLayout
+        │   └── ui/      # AppLayout, UIComponents
+        ├── context/     # Zustand auth store
+        ├── pages/       # All page components
+        ├── utils/       # API client, helpers
+        └── styles/      # Global CSS
 ```
 
 ---
 
 ## 🔑 API Endpoints
 
-**Authentication**
-- `POST /api/auth/register` — Register new user
-- `POST /api/auth/login` — Login
-- `GET /api/auth/me` — Get current user
+### Auth
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | /api/auth/register | Register new user |
+| POST | /api/auth/login | Login |
+| GET | /api/auth/me | Get current user |
+| PUT | /api/auth/update-profile | Update profile |
+| PUT | /api/auth/change-password | Change password |
 
-**Projects**
-- `GET /api/projects` — List all projects
-- `POST /api/projects` — Create project
-- `PUT /api/projects/:id` — Update project
-- `DELETE /api/projects/:id` — Delete project
+### Projects
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | /api/projects | List accessible projects |
+| POST | /api/projects | Create project |
+| GET | /api/projects/:id | Get project details |
+| PUT | /api/projects/:id | Update project |
+| DELETE | /api/projects/:id | Delete project |
+| POST | /api/projects/:id/members | Add member |
+| DELETE | /api/projects/:id/members/:userId | Remove member |
 
-**Tasks**
-- `GET /api/tasks` — List tasks
-- `POST /api/tasks` — Create task
-- `PUT /api/tasks/:id` — Update task
-- `DELETE /api/tasks/:id` — Delete task
+### Tasks
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | /api/tasks | List tasks (filterable) |
+| POST | /api/tasks | Create task |
+| GET | /api/tasks/:id | Get task |
+| PUT | /api/tasks/:id | Update task |
+| DELETE | /api/tasks/:id | Delete task |
+| POST | /api/tasks/:id/comments | Add comment |
+| PUT | /api/tasks/:id/subtasks/:sid | Toggle subtask |
 
-**Analytics**
-- `GET /api/analytics/dashboard` — Get stats & charts
-
----
-
-## 🏗️ Architecture
-
-- **MVC Pattern** — Clean separation of concerns
-- **RESTful API** — Standard HTTP conventions
-- **JWT Auth** — Secure token-based authentication
-- **State Management** — Zustand for lightweight client state
-- **Component-based UI** — Reusable React components
-- **Error Handling** — Comprehensive middleware
-- **Security** — Password hashing, CORS, rate limiting
-
----
-
-## 🔒 Security
-
-- ✅ Password hashing (bcryptjs)
-- ✅ JWT token authentication
-- ✅ CORS protection
-- ✅ Rate limiting (15 req/min per IP)
-- ✅ Input validation (server-side)
-- ✅ Helmet.js security headers
-- ✅ Environment variables (no secrets in code)
+### Analytics
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | /api/analytics/dashboard | Dashboard stats + charts |
+| GET | /api/analytics/admin | Admin global stats |
 
 ---
 
-## 📈 Performance
+## 🛠️ Tech Stack
 
-- Lazy-loaded React components
-- API response caching (TanStack Query)
-- Database query optimization
-- Gzip compression enabled
-- Mobile-responsive design
-
----
-
-## 📚 Documentation
-
-| Document | Purpose |
-|----------|---------|
-| [DEPLOY.md](./DEPLOY.md) | Railway deployment guide |
-| [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) | Pre-deployment verification |
-| [CONTRIBUTING.md](./CONTRIBUTING.md) | How to contribute |
-| [LICENSE](./LICENSE) | MIT License |
-
----
-
-## 💡 Future Enhancements
-
-- Real-time collaboration (WebSockets)
-- Email notifications
-- Mobile app (React Native)
-- Dark mode
-- Calendar view
-- Export to PDF
-- Multi-language support
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md)
-
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/amazing-feature`
-3. Commit: `git commit -m 'Add: amazing feature'`
-4. Push: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
----
-
-## 🆘 Troubleshooting
-
-**Cannot connect to MongoDB:**
-- Verify connection string in `.env`
-- Check MongoDB credentials
-- Ensure IP whitelist is set to `0.0.0.0/0`
-
-**Frontend shows "Cannot connect to API":**
-- Check `VITE_API_URL` in frontend `.env`
-- Ensure backend is running
-- Verify CORS is configured
-
-**Build fails:**
-- Delete `node_modules` and run `npm install`
-- Clear npm cache: `npm cache clean --force`
-- Check Node.js version: `node -v` (should be 18+)
-
-See [DEPLOY.md](./DEPLOY.md) for more help.
-
----
-
-## 📄 License
-
-MIT License - See [LICENSE](./LICENSE)
-
----
-
-## 👤 Author
-
-**Sahil Singla**
-
-- GitHub: [@Sahilingla](https://github.com/Sahilingla)
-- Repository: [TeamFlow](https://github.com/Sahilingla/ETHAR)
-
----
-
-## 🎯 Live Demo
-
-Coming soon on Railway! 🚀
-
-Follow [DEPLOY.md](./DEPLOY.md) to deploy your own instance.
-
----
-
-**Made with ❤️ for team collaboration**
+**Frontend:** React 18, React Router 6, Tailwind CSS, Framer Motion, Chart.js, TanStack Query, Zustand  
+**Backend:** Node.js, Express, MongoDB, Mongoose, JWT, bcryptjs, Helmet, express-rate-limit  
+**Deployment:** Railway (frontend + backend), MongoDB Atlas
