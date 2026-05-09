@@ -46,11 +46,23 @@ A full-stack, production-ready team task management application built with **Rea
 ### Prerequisites
 - Node.js 18+
 - MongoDB Atlas account (or local MongoDB)
+- Git
 
----
+### Automated Setup (Recommended)
 
-## ⚙️ Backend Setup
+**Windows:**
+```bash
+setup.bat
+```
 
+**macOS/Linux:**
+```bash
+bash setup.sh
+```
+
+### Manual Setup
+
+#### Backend
 ```bash
 cd backend
 npm install
@@ -59,26 +71,23 @@ cp .env.example .env
 npm run dev
 ```
 
-Seed demo data:
+#### Seed Demo Data
 ```bash
+cd backend
 node seed.js
 ```
 
-Demo accounts after seeding:
+Demo accounts:
 | Role   | Email                   | Password  |
 |--------|-------------------------|-----------|
 | Admin  | admin@teamflow.io       | admin123  |
 | Member | member@teamflow.io      | member123 |
 
----
-
-## 🖥️ Frontend Setup
-
+#### Frontend
 ```bash
 cd frontend
 npm install
 cp .env.example .env
-# Set VITE_API_URL=http://localhost:5000/api
 npm run dev
 ```
 
@@ -86,29 +95,38 @@ Open: http://localhost:5173
 
 ---
 
-## 🌐 Deploy to Railway
+## 🌐 Production Deployment
 
-### Backend
-1. Create a new Railway project
-2. Connect your GitHub repo
-3. Set root directory to `backend`
-4. Add environment variables:
-   - `MONGODB_URI` — your MongoDB Atlas connection string
-   - `JWT_SECRET` — a long random string (32+ chars)
-   - `FRONTEND_URL` — your deployed frontend URL
-   - `NODE_ENV=production`
+### Deploy to Railway (One-Click - 5 minutes)
 
-### Frontend
-1. Add a new service in the same Railway project
-2. Set root directory to `frontend`
-3. Add environment variable:
-   - `VITE_API_URL` — your deployed backend URL + `/api`
+See [DEPLOY.md](./DEPLOY.md) for complete step-by-step instructions.
 
-### MongoDB Atlas
-1. Create a free cluster at https://cloud.mongodb.com
-2. Create a database user
-3. Allow access from anywhere (0.0.0.0/0) in Network Access
-4. Copy your connection string
+**Quick Summary:**
+1. Push code to GitHub
+2. Connect Railway to your GitHub repo
+3. Set environment variables (MongoDB URI, JWT_SECRET)
+4. Done! Auto-deploys on every git push
+
+**Live Demo:**
+- **Frontend:** [Coming Soon - Deploy on Railway]
+- **Backend API:** [Coming Soon - Deploy on Railway]
+
+### Environment Variables
+
+**Backend (.env):**
+```env
+NODE_ENV=production
+PORT=5000
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/teamflow
+JWT_SECRET=<32+ char random string>
+JWT_EXPIRES_IN=7d
+FRONTEND_URL=https://your-railway-frontend-url
+```
+
+**Frontend (.env):**
+```env
+VITE_API_URL=https://your-railway-backend-url/api
+```
 
 ---
 
@@ -282,7 +300,22 @@ For detailed deployment steps, see [Deployment Guide](./DEPLOY.md)
 
 ---
 
-## 💡 Future Enhancements
+## � Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [DEPLOY.md](./DEPLOY.md) | Railway deployment guide |
+| [DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md) | Pre & post-deployment checklist |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | Contributing guidelines |
+| [LICENSE](./LICENSE) | MIT License |
+
+### Setup Scripts
+- **Windows:** `setup.bat` — Automated setup
+- **macOS/Linux:** `setup.sh` — Automated setup
+
+---
+
+## �💡 Future Enhancements
 
 - 🔄 Real-time collaboration with WebSockets
 - 📧 Email notifications for task updates
@@ -333,5 +366,6 @@ A: You can add tests using Vitest + React Testing Library. Contributions welcome
 ---
 
 **Made with ❤️ for team collaboration**
-#   E T H A R  
+#   E T H A R 
+ 
  
